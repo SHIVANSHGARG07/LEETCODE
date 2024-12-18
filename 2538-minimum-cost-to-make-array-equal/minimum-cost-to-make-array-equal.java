@@ -10,8 +10,13 @@ class Solution {
     public long minCost(int[] nums, int[] cost) {
         long ans=Long.MAX_VALUE;
 
-       int min = Arrays.stream(nums).min().getAsInt();
-        int max = Arrays.stream(nums).max().getAsInt();
+        int min = Integer.MAX_VALUE;
+       int max = Integer.MIN_VALUE; 
+
+       for(int num:nums){
+        min = Math.min(min,num);
+        max = Math.max(max,num);
+       }
 
        while(min<=max){
         int mid = min+(max-min)/2;
