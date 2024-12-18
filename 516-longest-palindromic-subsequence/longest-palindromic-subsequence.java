@@ -1,27 +1,28 @@
 class Solution {
-    public int memo(String s,int i,int j,int[][] dp){
-        if(i==j) return 1;
-        if(i>j) return 0; // crosees limits 
-        if(dp[i][j]!=-1){
-            return dp[i][j];
+    public int lcs(String s1, String s2) {
+        int m = s1.length(),n=s2.length();
+        int[][] dp = new int[m+1][n+1];
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+              if(s1.charAt(i-1) == s2.charAt(j-1)){
+                dp[i][j] = 1+dp[i-1][j-1];
+              }
+              else{
+                dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
+              }
+            }
+
         }
-        if(s.charAt(i)==s.charAt(j)){
-            dp[i][j] = 2+memo(s,i+1,j-1,dp);
-        }
-        else{
-            dp[i][j]=Math.max(memo(s,i+1,j,dp),memo(s,i,j-1,dp));
-        }
-        return dp[i][j];
+        return dp[m][n];
     }
     public int longestPalindromeSubseq(String s) {
-        int n = s.length();
-        // make dp 
-        int[][] dp = new int[1001][1001];
-
-        for(int i=0;i<1001;i++){
-            Arrays.fill(dp[i],-1);
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<s.length();i++){
+            sb.append(s.charAt(i));
         }
 
-        return memo(s,0,n-1,dp);
+
+        return lcs(s,sb.reverse().toString());
+
     }
 }
