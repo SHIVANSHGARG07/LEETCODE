@@ -1,12 +1,3 @@
-class Pair{
-   private int first;
-   private int second;
-   public Pair(int first,int second){
-    this.first=first;
-    this.second = second;
-   }
-
-}
 class Solution {
     public int countPalindromicSubsequence(String s) {
         int[] first = new int[26];
