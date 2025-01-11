@@ -1,19 +1,25 @@
+import java.util.*;
+
 class Solution {
     public boolean canConstruct(String s, int k) {
-        int n = s.length();
-        if(n<k) return false;
-        if(n==k) return true;
-        HashMap<Character,Integer>mp = new HashMap<>();
-        for(char c:s.toCharArray()){
-            mp.put(c,mp.getOrDefault(c,0)+1);
+        // If k is greater than the length of the string, it's impossible
+        if (k > s.length()) return false;
+
+        // Count the frequency of each character
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
         }
 
-    int count=0;
-    for(int num:mp.values()){
-        if(num%2==1){
-            count++;
+        // Count the number of odd frequencies
+        int oddCount = 0;
+        for (int count : freq) {
+            if (count % 2 != 0) {
+                oddCount++;
+            }
         }
-    }
-    return count>k?false:true;
+
+        // Check if we can form k palindromes
+        return k >= oddCount;
     }
 }
