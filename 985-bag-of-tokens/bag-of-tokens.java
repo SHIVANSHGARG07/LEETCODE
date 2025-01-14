@@ -6,17 +6,26 @@ class Solution {
         int score=0;
         int i=0,j=n-1;
 
-        while(i<=j){
+        while(i<j){
             if(power>=arr[i]){
              score++;
              power-=arr[i];
              i++;
             }
-            else {
-                if(score==0 || i == j) break;
+            else if(score>0) {
+                // if(score==0 || i == j) break;
               score--;
               power+=arr[j];
               j--;
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        if(i==j){
+            if(arr[i]<=power){
+                score++;
             }
         }
         return score;
