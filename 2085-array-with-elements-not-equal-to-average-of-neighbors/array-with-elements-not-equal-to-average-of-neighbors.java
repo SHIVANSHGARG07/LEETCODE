@@ -1,9 +1,5 @@
 class Solution {
-    public void swap(int one,int two){
-        int temp = one;
-        one = two;
-        two=temp;
-    }
+    
     public int[] rearrangeArray(int[] nums) {
         int n = nums.length;
        
