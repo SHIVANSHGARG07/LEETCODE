@@ -14,7 +14,7 @@ class Solution {
     }
     
     public int[] shuffle() {
-        int[] shuff = this.nums.clone();
+        int[] shuff = nums.clone();
         for(int i=shuff.length-1;i>0;i--){
             int j = random.nextInt(i+1);
             int temp = nums[i];
