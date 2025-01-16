@@ -1,26 +1,21 @@
 class Solution {
-    int mod = 1000000007;
+        int mod = 1000000007;
 
-    public int numRollsToTarget(int n, int k, int target) {
-        // Create the DP table
-        int[][] dp = new int[n + 1][target + 1];
-        
-        // Base case: 1 way to get sum 0 with 0 dice
-        dp[0][0] = 1;
-        
-        // Fill the DP table iteratively
-        for (int i = 1; i <= n; i++) { // For each dice
-            for (int j = 1; j <= target; j++) { // For each possible sum
-                // Try each face value (1 to k)
-                for (int face = 1; face <= k; face++) {
-                    if (j - face >= 0) { // Check if previous sum is valid
-                        dp[i][j] = (dp[i][j] + dp[i - 1][j - face]) % mod;
+    public int numRollsToTarget(int n, int m, int k) {
+        int[][] dp = new int[n+1][k+1];
+
+        dp[0][0]=1;
+
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=k;j++){
+                for(int x=1;x<=m;x++){
+                    if(j-x>=0){
+                    dp[i][j]=( dp[i][j]+dp[i-1][j-x] )%mod;
                     }
                 }
             }
         }
+        return dp[n][k];
 
-        // Return the number of ways to get the target sum using n dice
-        return dp[n][target];
     }
 }
