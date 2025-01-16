@@ -11,7 +11,6 @@ class Solution {
         // Fill the DP table iteratively
         for (int i = 1; i <= n; i++) { // For each dice
             for (int j = 1; j <= target; j++) { // For each possible sum
-                dp[i][j] = 0; // Initialize dp[i][j] to 0
                 // Try each face value (1 to k)
                 for (int face = 1; face <= k; face++) {
                     if (j - face >= 0) { // Check if previous sum is valid
