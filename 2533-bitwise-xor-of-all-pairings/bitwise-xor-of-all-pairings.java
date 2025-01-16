@@ -1,20 +1,19 @@
 class Solution {
     public int xorAllNums(int[] nums1, int[] nums2) {
-        HashMap<Integer,Integer>mp = new HashMap<>();
         int m = nums1.length;
         int n = nums2.length;
-        for(int num:nums1){
-            mp.put(num,mp.getOrDefault(num,0)+n);
-        }
-        for(int num:nums2){
-            mp.put(num,mp.getOrDefault(num,0)+m);
-        }
-        int ans =0;
-        for(int num:mp.keySet()){
-            if(mp.get(num)%2!=0){
-                ans^=num;
+        int result=0;
+        if (n % 2 == 1) {
+            for (int num : nums1) {
+                result ^= num;
             }
         }
-        return ans;
+
+        if (m % 2 == 1) {
+            for (int num : nums2) {
+                result ^= num;
+            }
+        }
+        return result;
     }
 }
