@@ -1,70 +1,58 @@
-import java.util.*;
-
-class iPair {
+class Pair {
     int first, second;
 
-    iPair(int f, int s) {
-        first = f;
-        second = s;
+    public Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
     }
 }
 
 class Graph {
-    private List<List<iPair>> adj;
-
-    // Constructor initializes the adjacency list for the graph
+  private  List<List<Pair>>adj;
     public Graph(int n, int[][] edges) {
-        adj = new ArrayList<>();
-        
-        // Initialize the adjacency list with empty lists for each node
-        for (int i = 0; i < n; i++) {
-            adj.add(new ArrayList<>());
-        }
-        
-        // Add the edges to the adjacency list
-        for (int[] edge : edges) {
-            addEdge(edge);
-        }
+       adj = new ArrayList<>();
+       for(int i=0;i<n;i++){
+        adj.add(new ArrayList<>());
+       }
+
+       for(int[] edge:edges){
+        addEdge(edge);
+       }
     }
 
-    // Add an edge from node u to v with a given weight
     public void addEdge(int[] edge) {
-        int u = edge[0];
-        int v = edge[1];
-        int wt = edge[2];
-        adj.get(u).add(new iPair(v, wt));
+       int u = edge[0];
+       int v = edge[1];
+       int wt = edge[2];
+       adj.get(u).add(new Pair(v,wt));
     }
 
-    // Dijkstra's algorithm to find the shortest path from src to dest
     public int shortestPath(int src, int dest) {
-        int n = adj.size();
-        ArrayList<Integer> dist = new ArrayList<>(Collections.nCopies(n, Integer.MAX_VALUE));
-        dist.set(src, 0);
+      int n = adj.size();
+      ArrayList<Integer>dist = new ArrayList<>(Collections.nCopies(n,Integer.MAX_VALUE));
 
-        PriorityQueue<iPair> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.second));
-        pq.add(new iPair(src, 0));
+      dist.set(src,0);
+      PriorityQueue<Pair>pq = new PriorityQueue<>(Comparator.comparingInt(a->a.second));
+      pq.add(new Pair(src,0));
 
-        while (!pq.isEmpty()) {
-            iPair pair = pq.poll();
-            int u = pair.first;
+      while(!pq.isEmpty()){
+        Pair pair = pq.poll();
+        int u = pair.first;
 
-            if (u == dest) {
-                return dist.get(u); // Return the distance to destination node
-            }
-
-            for (iPair ne : adj.get(u)) {
-                int v = ne.first;
-                int weight = ne.second;
-
-                // Relaxation step for Dijkstra's algorithm
-                if (dist.get(u) + weight < dist.get(v)) {
-                    dist.set(v, dist.get(u) + weight);
-                    pq.add(new iPair(v, dist.get(v)));
-                }
-            }
+        if(u==dest){
+     return dist.get(u);
         }
 
-        // If destination is not reachable, return -1
-        return -1;
+        for(Pair ne:adj.get(u)){
+          int v = ne.first;
+          int wt = ne.second;
+
+          if(dist.get(u)+wt<dist.get(v)){
+            dist.set(v,dist.get(u)+wt);
+            pq.add(new Pair(v,dist.get(v)));
+          }
+        }
+      }
+      return -1;
     }
 }
