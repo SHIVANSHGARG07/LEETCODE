@@ -1,6 +1,5 @@
 class Solution {
     public boolean check(int[] nums) {
-        HashSet<Integer>st = new HashSet<>();
         int n = nums.length;
         int count=0;
 
