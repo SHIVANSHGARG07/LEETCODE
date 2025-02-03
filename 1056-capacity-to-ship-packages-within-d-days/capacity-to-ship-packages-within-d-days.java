@@ -18,12 +18,12 @@ class Solution {
         int totalSum = Arrays.stream(weights).sum();
 
         int left = maxy, right = totalSum;
-        while (left < right) {
+        while (left <= right) {
             int mid = left + (right - left) / 2;
             int days = binary(mid, weights);
             
             if (days <= k) {
-                right = mid;  
+                right = mid-1;  
             } else {
                 left = mid + 1;  
             }
