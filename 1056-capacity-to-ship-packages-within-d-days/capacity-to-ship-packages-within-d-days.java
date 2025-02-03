@@ -18,16 +18,16 @@ class Solution {
         int totalSum = Arrays.stream(weights).sum();
 
         int left = maxy, right = totalSum;
-        while (left < right) {
+        while (left <= right) {
             int mid = left + (right - left) / 2;
             int days = binary(mid, weights);
             
             if (days <= k) {
-                right = mid;  // Try a smaller capacity to minimize the largest load
+                right = mid-1;  
             } else {
-                left = mid + 1;  // Increase the capacity
+                left = mid + 1;  
             }
         }
-        return left;  // Return the minimum capacity found
+        return left;  
     }
 }
