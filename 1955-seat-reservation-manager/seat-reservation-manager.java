@@ -1,33 +1,26 @@
 class SeatManager {
-   PriorityQueue<Integer>pq ;
-   HashSet<Integer>st ;
 
+    PriorityQueue<Integer> pq;
+    
     public SeatManager(int n) {
-        pq = new PriorityQueue<>();
-        st = new HashSet<>();
-        for(int i=1;i<=n;i++){
-            pq.add(i);
+        pq = new PriorityQueue();
+        for (int i = 1; i <= n; i++) {
+            pq.offer(i);
         }
-
     }
     
     public int reserve() {
-        
-       if(!pq.isEmpty()){
-        int num = pq.poll();
-        st.add(num);
-        return num;
-       }
-       else{
-        return -1;
-       }
+        return pq.poll();
     }
     
     public void unreserve(int seatNumber) {
-        if(st.contains(seatNumber)){
-            st.remove(seatNumber);
-        }
-        pq.add(seatNumber);
+        pq.offer(seatNumber);
     }
 }
 
+/**
+ * Your SeatManager object will be instantiated and called as such:
+ * SeatManager obj = new SeatManager(n);
+ * int param_1 = obj.reserve();
+ * obj.unreserve(seatNumber);
+ */
