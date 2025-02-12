@@ -11,7 +11,7 @@ class Solution {
                 r=mid;
             }
         }
-        return nums[l];
+        return nums[r];
     }
 }
 
