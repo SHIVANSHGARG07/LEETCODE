@@ -1,63 +1,78 @@
-class Pair{
-    int node;
-    int dist;
-    public Pair(int node,int dist){
-        this.node = node;
-        this.dist=dist;
-    }
-}
+import java.util.*;
 
 class Solution {
-    private int prims(List<List<Pair>>adj,int V){
-        PriorityQueue<Pair>pq = new PriorityQueue<>(Comparator.comparingInt(a->a.dist));
-        pq.add(new Pair(0,0));
-
-        boolean[] vis = new boolean[V];
-        int sum =0;
-
-        while(!pq.isEmpty()){
-            Pair p = pq.poll();
-            int v = p.node;
-            int wt = p.dist;
-
-            if(vis[v]) continue;
-
-            vis[v]=true;
-            sum+=wt;
-
-            for(Pair pair:adj.get(v)){
-                int a = pair.node;
-                int b = pair.dist;
-
-                if(!vis[a]){
-                    pq.add(new Pair(a,b));
-                }
-            }
-
+    class Edge {
+        int u, v, weight;
+        Edge(int u, int v, int weight) {
+            this.u = u;
+            this.v = v;
+            this.weight = weight;
         }
-        return sum;
     }
+
+    // Disjoint Set Union (DSU) with path compression & union by rank
+    class DSU {
+        int[] parent, rank;
+        
+        DSU(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; i++) parent[i] = i;
+        }
+
+        int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]);  // Path compression
+            }
+            return parent[x];
+        }
+
+        boolean union(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX == rootY) return false; // Already connected
+
+            // Union by rank
+            if (rank[rootX] > rank[rootY]) {
+                parent[rootY] = rootX;
+            } else if (rank[rootX] < rank[rootY]) {
+                parent[rootX] = rootY;
+            } else {
+                parent[rootY] = rootX;
+                rank[rootX]++;
+            }
+            return true;
+        }
+    }
+
     public int minCostConnectPoints(int[][] points) {
         int V = points.length;
-        List<List<Pair>>adj = new ArrayList<>();
-        for(int i=0;i<V;i++){
-            adj.add(new ArrayList<>());
-        }
+        List<Edge> edges = new ArrayList<>();
 
-        for(int i=0;i<V;i++){
-            for(int j=i+1;j<V;j++){
-                int x1 = points[i][0];
-                int x2 = points[i][1];
-
-                int y1=points[j][0];
-                int y2 = points[j][1];
-
-                int wt = Math.abs(y2-x2)+Math.abs(x1-y1);
-                adj.get(i).add(new Pair(j,wt));
-                adj.get(j).add(new Pair(i,wt));
+        // Step 1: Create an edge list with Manhattan distance as weight
+        for (int i = 0; i < V; i++) {
+            for (int j = i + 1; j < V; j++) {
+                int weight = Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
+                edges.add(new Edge(i, j, weight));
             }
         }
-        return prims(adj,V);
 
+        // Step 2: Sort edges by weight
+        edges.sort(Comparator.comparingInt(e -> e.weight));
+
+        // Step 3: Use DSU to find MST
+        DSU dsu = new DSU(V);
+        int mstWeight = 0;
+        int edgesUsed = 0;
+
+        for (Edge edge : edges) {
+            if (dsu.union(edge.u, edge.v)) { // If adding edge doesn't form a cycle
+                mstWeight += edge.weight;
+                edgesUsed++;
+                if (edgesUsed == V - 1) break; // MST is formed
+            }
+        }
+
+        return mstWeight;
     }
 }
