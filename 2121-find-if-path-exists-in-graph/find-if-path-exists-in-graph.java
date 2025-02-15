@@ -1,24 +1,48 @@
 class Solution {
-    public void dfs(List<List<Integer>>adj,int src,boolean[] vis){
-        vis[src]=true;
-        for(int ne:adj.get(src)){
-            if(!vis[ne]){
-                dfs(adj,ne,vis);
+    class UnionFind {
+        int[] parent, rank;
+
+        UnionFind(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; i++) {
+                parent[i] = i;  // Each node is its own parent initially
+                rank[i] = 1;
+            }
+        }
+
+        int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]);  // Path compression
+            }
+            return parent[x];
+        }
+
+        void union(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX != rootY) {
+                if (rank[rootX] > rank[rootY]) {
+                    parent[rootY] = rootX;
+                } else if (rank[rootX] < rank[rootY]) {
+                    parent[rootX] = rootY;
+                } else {
+                    parent[rootY] = rootX;
+                    rank[rootX]++;
+                }
             }
         }
     }
-    public boolean validPath(int n, int[][] edges, int source, int destination) {
-      List<List<Integer>>adj = new ArrayList<>();
-      for(int i=0;i<n;i++){
-        adj.add(new ArrayList<>());
-      }  
 
-      for(int[] edge:edges){
-        adj.get(edge[0]).add(edge[1]);
-        adj.get(edge[1]).add(edge[0]);
-      }
-boolean[] vis = new boolean[n];
-      dfs(adj, source,vis);
-      return vis[destination];
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        UnionFind uf = new UnionFind(n);
+
+        // Union all edges
+        for (int[] edge : edges) {
+            uf.union(edge[0], edge[1]);
+        }
+
+        // Check if source and destination are in the same component
+        return uf.find(source) == uf.find(destination);
     }
 }
