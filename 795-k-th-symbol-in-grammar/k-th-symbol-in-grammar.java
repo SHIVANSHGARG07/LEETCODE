@@ -7,7 +7,7 @@ class Solution {
 
         if(k<=mid) return kthGrammar(n-1,k);
         else{
-            return 1-kthGrammar(n-1,k-mid);
+            return kthGrammar(n-1,k-mid)==1?0:1;
         }
     }
 }
