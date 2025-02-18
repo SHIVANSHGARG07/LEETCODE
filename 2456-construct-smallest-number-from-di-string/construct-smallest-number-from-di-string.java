@@ -1,19 +1,22 @@
 class Solution {
     public String smallestNumber(String pattern) {
-       int n = pattern.length();
-        StringBuilder result = new StringBuilder();
-        Stack<Integer> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
 
-        for (int i = 0; i <= n; i++) {
-            stack.push(i + 1);  
-            
-            if (i == n || pattern.charAt(i) == 'I') {
-                while (!stack.isEmpty()) {
-                    result.append(stack.pop());
-                }
+        int num =1;
+        for(char c:pattern.toCharArray()){
+            temp.append(num);
+            num++;
+            if(c=='I'){
+                sb.append(temp.reverse());
+                temp = new StringBuilder();
             }
+
+            
         }
-        
-        return result.toString(); 
+        temp.append(num);
+        sb.append(temp.reverse());
+
+        return sb.toString();
     }
 }
