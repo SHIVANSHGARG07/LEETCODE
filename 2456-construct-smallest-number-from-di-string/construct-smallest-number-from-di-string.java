@@ -5,9 +5,8 @@ class Solution {
         Stack<Integer> stack = new Stack<>();
 
         for (int i = 0; i <= n; i++) {
-            stack.push(i + 1);  // Push numbers from 1 to n+1
+            stack.push(i + 1);  
             
-            // When we encounter 'I' or reach the end, pop the stack
             if (i == n || pattern.charAt(i) == 'I') {
                 while (!stack.isEmpty()) {
                     result.append(stack.pop());
