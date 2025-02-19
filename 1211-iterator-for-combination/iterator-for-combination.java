@@ -9,7 +9,7 @@ class CombinationIterator {
         this.s=s;
         this.k=k;
         this.list = func(s,k);
-        this.index=0;
+        this.index=1;
     }
 
     private void backtrack(String s,int k,int idx,StringBuilder sb,List<String>ans){
@@ -36,7 +36,7 @@ class CombinationIterator {
     
     public String next() {
       if(hasNext()){
-     String ans= list.get(index);
+     String ans= list.get(index-1);
      index++;
      return ans;
       }
@@ -46,6 +46,6 @@ class CombinationIterator {
     }
     
     public boolean hasNext() {
-        return index<list.size();
+        return index<=list.size();
     }
 }
