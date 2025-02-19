@@ -3,13 +3,12 @@ class CombinationIterator {
     private String s;
     private int k;
     private List<String>list;
-    private int index;
+    // private int index;
 
     public CombinationIterator(String s, int k) {
         this.s=s;
         this.k=k;
         this.list = func(s,k);
-        this.index=1;
     }
 
     private void backtrack(String s,int k,int idx,StringBuilder sb,List<String>ans){
@@ -36,16 +35,16 @@ class CombinationIterator {
     
     public String next() {
       if(hasNext()){
-     String ans= list.get(index-1);
-     index++;
-     return ans;
+        return list.remove(0);
       }
-      return "";
+      else{
+        return "";
+      }
       
 
     }
     
     public boolean hasNext() {
-        return index<=list.size();
+        return !list.isEmpty();
     }
 }
