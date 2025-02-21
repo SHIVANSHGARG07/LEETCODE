@@ -1,16 +1,22 @@
+
 class FindElements {
     private HashSet<Integer>st;
     public FindElements(TreeNode root) {
+        root.val=0;
         st = new HashSet<>();
-        func(root,0);
+        func(root);
     }
-    private void func(TreeNode root,int val){
-        if(root==null) return;
-        root.val = val;
-        st.add(val);
+    private void func(TreeNode root){
+       st.add(root.val);
+       if(root.left!=null){
+        root.left.val = 2*root.val+1;
+        func(root.left); 
+       }
+       if(root.right!=null){
+        root.right.val=2*root.val+2;
+        func(root.right);
+       }
 
-        func(root.left,2*val+1);
-        func(root.right,2*val+2);
     }
     
     public boolean find(int target) {
