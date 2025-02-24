@@ -1,36 +1,49 @@
 class Solution {
     public String longestPalindrome(String s) {
-        int n = s.length();
-        if (n == 0) return "";
+        if (s == null || s.length() == 0) return "";
+        
+        // Step 1: Transform the string
+        String t = preprocess(s);
+        int n = t.length();
+        int[] P = new int[n]; // Array to store palindrome radius
+        int C = 0, R = 0; // Center and right boundary of the current palindrome
+        int maxLen = 0, centerIndex = 0;
 
-        boolean[][] dp = new boolean[n][n];  // DP table
-        int start = 0, maxLength = 1;  // Store longest palindrome start index & length
+        for (int i = 1; i < n - 1; i++) {
+            int mirror = 2 * C - i; // Mirror of i with respect to C
 
-        // All substrings of length 1 are palindromes
-        for (int i = 0; i < n; i++) dp[i][i] = true;
+            if (i < R) {
+                P[i] = Math.min(R - i, P[mirror]);
+            }
 
-        // Check for substrings of length 2
-        for (int i = 0; i < n - 1; i++) {
-            if (s.charAt(i) == s.charAt(i + 1)) {
-                dp[i][i + 1] = true;
-                start = i;
-                maxLength = 2;
+            // Try expanding around center i
+            while (t.charAt(i + P[i] + 1) == t.charAt(i - P[i] - 1)) {
+                P[i]++;
+            }
+
+            // Update center and right boundary if expanded beyond R
+            if (i + P[i] > R) {
+                C = i;
+                R = i + P[i];
+            }
+
+            // Update max palindrome length
+            if (P[i] > maxLen) {
+                maxLen = P[i];
+                centerIndex = i;
             }
         }
 
-        // Check for substrings longer than 2
-        for (int len = 3; len <= n; len++) {  // Length of substring
-            for (int i = 0; i <= n - len; i++) {  // Start index
-                int j = i + len - 1;  // End index
-                if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
-                    dp[i][j] = true;
-                    start = i;
-                    maxLength = len;
-                }
-            }
+        // Step 3: Extract the original palindrome substring
+        int start = (centerIndex - maxLen) / 2; // Adjust back to original index
+        return s.substring(start, start + maxLen);
+    }
+    private String preprocess(String s) {
+        StringBuilder sb = new StringBuilder("^");
+        for (char c : s.toCharArray()) {
+            sb.append("#").append(c);
         }
-
-        return s.substring(start, start + maxLength);
-
+        sb.append("#$");
+        return sb.toString();
     }
 }
