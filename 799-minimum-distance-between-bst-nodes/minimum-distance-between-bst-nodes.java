@@ -27,10 +27,8 @@ class Solution {
         Collections.sort(list);
         int ans=Integer.MAX_VALUE;
         int n = list.size();
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                ans = Math.min(ans,list.get(j)-list.get(i));
-            }
+        for(int i=1;i<n;i++){
+           ans = Math.min(ans,list.get(i)-list.get(i-1));
         }
         return ans;
     }
