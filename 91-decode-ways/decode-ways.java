@@ -6,13 +6,14 @@ class Solution {
         if(dp[idx]!=-1) return dp[idx];
 
         int res =memo(s,dp,idx+1);
+        int res2=0;
         if(idx<s.length()-1){
             int temp = Integer.parseInt(s.substring(idx,idx+2));
             if(temp<=26){
-                res+=memo(s,dp,idx+2);
+                res2+=memo(s,dp,idx+2);
             }
         }
-        return dp[idx]=res;
+        return dp[idx]=res+res2;
 
     }
     public int numDecodings(String s) {
