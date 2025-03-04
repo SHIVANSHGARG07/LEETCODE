@@ -2,6 +2,7 @@ class Solution {
     private boolean func(int[] nums,int i,Boolean[] dp){
         int n = nums.length;
         if(i==n) return true;
+        if(i>n) return false;
         if(dp[i]!=null) return dp[i];
 
         boolean ans = false;
