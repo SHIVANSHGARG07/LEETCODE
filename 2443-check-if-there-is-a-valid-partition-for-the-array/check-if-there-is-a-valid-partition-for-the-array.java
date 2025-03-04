@@ -18,7 +18,8 @@ class Solution {
         if(i+2<n && nums[i]+1==nums[i+1] && nums[i+1]+1==nums[i+2]){
             ans|= func(nums,i+3,dp);
         }
-        return dp[i]=ans;
+         dp[i]=ans;
+         return dp[i];
 
 
     }
