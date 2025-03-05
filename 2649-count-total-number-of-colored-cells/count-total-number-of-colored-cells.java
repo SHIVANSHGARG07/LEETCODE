@@ -1,11 +1,13 @@
 class Solution {
     public long coloredCells(int n) {
-        long [] dp = new long[n+1];
-        dp[1]=1;
+        if(n==1) return 1;  // base case
 
-        for(int i=2;i<=n;i++){
-            dp[i]=dp[i-1]+(i-1)*4;
+        long sum=0;
+
+        while(n>1){
+            sum = sum + (n-1)*4;
+            n--;
         }
-        return dp[n];
+        return 1+sum; 
     }
 }
