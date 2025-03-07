@@ -1,18 +1,16 @@
 class Solution {
-    public int sum =0;
-    public void cal(int[] arr,int s,int currXor){
-      if(s==arr.length){
-        sum+=currXor;
+    private int sum =0;
+    private void back(int[] nums,int idx,int curr){
+      if(idx==nums.length){
+        sum+=curr;
         return;
       }
 
-       cal(arr,s+1,currXor^arr[s]);
-       cal(arr,s+1,currXor);
-       
-      
+      back(nums,idx+1,curr^nums[idx]);
+      back(nums,idx+1,curr);
     }
     public int subsetXORSum(int[] nums) {
-        cal(nums,0,0);
-        return sum;
+        back(nums,0,0);
+   return sum;
     }
 }
