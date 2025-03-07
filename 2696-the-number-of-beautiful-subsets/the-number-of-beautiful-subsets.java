@@ -20,6 +20,6 @@ class Solution {
     public int beautifulSubsets(int[] nums, int k) {
         HashMap<Integer,Integer>mp = new HashMap<>();
         func(nums,0,k,mp);
-        return count-1;
+        return count-1; // exclude empty subset
     }
 }
