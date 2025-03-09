@@ -19,6 +19,7 @@ class Solution {
 
         if(r-l+1>=k){
             count++;
+            l++;
         }
 
 
