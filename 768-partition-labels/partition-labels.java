@@ -2,6 +2,7 @@ class Solution {
     public List<Integer> partitionLabels(String s) {
         int[] fq = new int[26];
         int n = s.length();
+        
         for(int i=0;i<n;i++){
          char ch = s.charAt(i);
          fq[ch-'a']=i;
